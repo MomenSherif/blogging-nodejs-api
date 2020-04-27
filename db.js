@@ -1,5 +1,9 @@
 const mongoose = require('mongoose');
+const slug = require('mongoose-slug-generator');
+
 const { mongoDBUrl } = require('./config');
+
+mongoose.plugin(slug);
 
 mongoose
   .connect(mongoDBUrl, {
