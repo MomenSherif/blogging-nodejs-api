@@ -19,7 +19,7 @@ const loginUser = async (req, res) => {
 
 const getUserBySlug = async (req, res) => {
   const user = await User.findOne({ slug: req.params.slug });
-
+  if (!user) throw new CustomError(404, 'Not Found');
   res.json(user);
 };
 
