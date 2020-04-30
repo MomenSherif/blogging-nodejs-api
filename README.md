@@ -9,6 +9,7 @@ MERN blogging website [ Back End Repo ]
 - [nodemon](https://www.npmjs.com/package/nodemon)
 - [dotenv](https://www.npmjs.com/package/dotenv)
 - [express-validator](https://www.npmjs.com/package/express-validator)
+- [express-async-errors](https://www.npmjs.com/package/express-async-errors)
 - [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
 - [bcrypt](https://www.npmjs.com/package/bcrypt)
 - [mongoose](https://www.npmjs.com/package/mongoose)
