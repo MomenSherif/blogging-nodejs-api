@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const CustomError = require('../helper/CustomError');
 
 const createUser = async (req, res) => {
   const user = new User(req.body);
