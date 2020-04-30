@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const slug = require('mongoose-slug-generator');
 
 const blogSchema = new mongoose.Schema(
   {
@@ -34,6 +35,8 @@ const blogSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+blogSchema.plugin(slug);
 
 blogSchema.index({ title: 'text' });
 

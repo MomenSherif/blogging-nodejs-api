@@ -11,13 +11,20 @@ const loginUser = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findByCredentials({ email, password });
 
-  if (!user) throw new CustomError(401, 'Unauthorized');
+  if (!user) throw new CustomError(401, 'Invalid email or password!');
 
   const token = await user.genereateAuthToken();
   res.json({ user, token });
 };
 
+const getUserBySlug = async (req, res) => {
+  const user = await User.findOne({ slug: req.params.slug });
+
+  res.json(user);
+};
+
 module.exports = {
   createUser,
   loginUser,
+  getUserBySlug,
 };

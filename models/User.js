@@ -1,11 +1,11 @@
 const { promisify } = require('util');
 const mongoose = require('mongoose');
+const slug = require('mongoose-slug-generator');
 const uniqueValidator = require('mongoose-unique-validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const { jwtSecretKey } = require('../config');
-const CustomError = require('../helper/CustomError');
 
 const jwtSign = promisify(jwt.sign);
 
@@ -33,9 +33,17 @@ const userSchema = new mongoose.Schema(
       trim: true,
       required: [true, 'Passowrd is required!'],
     },
+    slug: {
+      type: String,
+      slug: ['firstName', 'lastName'],
+      slug_padding_size: 3,
+      unique: true,
+    },
   },
   { timestamps: true }
 );
+
+userSchema.plugin(slug);
 
 userSchema.plugin(uniqueValidator, {
   message: '{VALUE} is already in use',
