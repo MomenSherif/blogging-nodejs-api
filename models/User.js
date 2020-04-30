@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
-const uesrSchema = new mongoose.Schema(
+const userSchema = new mongoose.Schema(
   {
     firstName: {
       type: String,
@@ -29,16 +29,16 @@ const uesrSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-uesrSchema.plugin(uniqueValidator);
+userSchema.plugin(uniqueValidator);
 
-uesrSchema.index({ firstName: 'text', lastName: 'text' });
+userSchema.index({ firstName: 'text', lastName: 'text' });
 
-uesrSchema.virtual('blogs', {
+userSchema.virtual('blogs', {
   ref: 'Blog',
   localField: '_id',
   foreignField: 'author',
 });
 
-const User = mongoose.model('User', uesrSchema);
+const User = mongoose.model('User', userSchema);
 
 module.exports = User;
