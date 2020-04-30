@@ -1,9 +1,34 @@
+const path = require('path');
 const { body } = require('express-validator');
+const multer = require('multer');
 
 const validateRequest = require('../middlewares/validateRequest');
 const Blog = require('../models/Blog');
 const CustomError = require('../helper/CustomError');
 const validateRequestExtraFields = require('../middlewares/validateRequestExtraFields');
+
+// Blog photo multer configuration
+const storage = multer.diskStorage({
+  destination(req, file, cb) {
+    cb(null, path.join(__dirname, '../public/uploads'));
+  },
+  filename(req, file, cb) {
+    const ext = path.extname(file.originalname);
+    cb(null, `${file.originalname}`);
+  },
+});
+
+const upload = multer({
+  storage,
+  fileFilter(req, file, cb) {
+    const isPhoto = file.mimetype.startsWith('image/');
+    if (isPhoto) cb(null, true);
+    else cb(new CustomError(422, 'Images only are allowed!'));
+  },
+  limits: {
+    fileSize: 1024 * 1024, // 1MB
+  },
+});
 
 const validateBlogCreation = validateRequest([
   body('title')
@@ -16,7 +41,6 @@ const validateBlogCreation = validateRequest([
     .withMessage('Body must be at least 20 characters!')
     .notEmpty()
     .withMessage('Body must be provided!'),
-  body('photo').notEmpty().withMessage('Photo must be provided!'),
 ]);
 
 const validateBlogUpdate = validateRequest([
@@ -31,7 +55,7 @@ const validateBlogUpdate = validateRequest([
   ...validateRequestExtraFields('author'),
 ]);
 
-const validateOwner = async (req, res, next) => {
+const validateBlogOwner = async (req, res, next) => {
   const blog = await Blog.findById(req.params.id);
 
   if (!blog) throw new CustomError(404, 'Not Found');
@@ -43,8 +67,11 @@ const validateOwner = async (req, res, next) => {
   next();
 };
 
+const uploadPhoto = upload.single('photo');
+
 module.exports = {
   validateBlogCreation,
-  validateOwner,
+  validateBlogOwner,
   validateBlogUpdate,
+  uploadPhoto,
 };

@@ -1,6 +1,7 @@
 const Blog = require('../models/Blog');
 
 const createBlog = async (req, res) => {
+  req.body.photo = `/uploads/${req.file.filename}`;
   req.body.author = req.user._id;
   const blog = new Blog(req.body);
   await blog.save();

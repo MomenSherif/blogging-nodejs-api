@@ -2,22 +2,24 @@ const express = require('express');
 
 const {
   validateBlogCreation,
-  validateOwner,
+  validateBlogOwner,
   validateBlogUpdate,
+  uploadPhoto,
 } = require('../middlewares/blog');
 const { authenticate } = require('../middlewares/auth');
 const { createBlog, deleteBlog, updateBlog } = require('../controllers/blog');
 
 const router = express.Router();
 
-router.post('/', authenticate, validateBlogCreation, createBlog);
+router.post('/', authenticate, uploadPhoto, validateBlogCreation, createBlog);
 
-router.delete('/:id', authenticate, validateOwner, deleteBlog);
+router.delete('/:id', authenticate, validateBlogOwner, deleteBlog);
 
 router.patch(
   '/:id',
   authenticate,
-  validateOwner,
+  uploadPhoto,
+  validateBlogOwner,
   validateBlogUpdate,
   updateBlog
 );
