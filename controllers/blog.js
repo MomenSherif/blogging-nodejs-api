@@ -27,7 +27,10 @@ const deleteBlog = async (req, res) => {
 };
 
 const getBlogBySlug = async (req, res) => {
-  const blog = await Blog.findOne({ slug: req.params.slug });
+  const blog = await Blog.findOne({ slug: req.params.slug }).populate({
+    path: 'author',
+    select: 'firstName lastName email slug',
+  });
   if (!blog) throw new CustomError(404, 'Blog Not Found!');
   res.json(blog);
 };
