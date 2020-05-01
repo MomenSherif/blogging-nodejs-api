@@ -81,8 +81,8 @@ const validateBlogOwner = async (req, res, next) => {
 const uploadPhoto = upload.single('photo');
 
 const sanitizeBlogPagePagination = validateRequest([
-  query('page').optional().isInt().toInt(),
-  query('pagesize').optional().isInt().toInt(),
+  query('page').optional().isInt({ min: 1 }).toInt(),
+  query('pagesize').optional().isInt({ min: 1 }).toInt(),
 ]);
 
 module.exports = {

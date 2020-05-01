@@ -22,7 +22,7 @@ const loginUser = async (req, res) => {
 // Separated t 2 functions, to not request profile data while paginating blogs
 const getUserBySlug = async (req, res) => {
   const user = await User.findOne({ slug: req.params.slug }).select('-follows');
-  if (!user) throw new CustomError(404, 'Not Found');
+  if (!user) throw new CustomError(404, 'User Not Found');
   res.json(user);
 };
 
@@ -37,7 +37,7 @@ const getUserBlogsBySlug = async (req, res) => {
       limit: pagesize,
     },
   });
-  if (!user) throw new CustomError(404, 'Not Found');
+  if (!user) throw new CustomError(404, 'User Not Found');
   const count = await Blog.count({ author: user._id });
   const pages = Math.ceil(count / pagesize);
   res.json({ pages, blogs: user.blogs });
@@ -60,10 +60,29 @@ const followUser = async (req, res) => {
   res.json({ message });
 };
 
+const getFollowedUsersBlogs = async (req, res) => {
+  const { page = 1, pagesize = 5 } = req.query;
+  const blogsPromise = Blog.find({ author: req.user.follows })
+    .populate({
+      path: 'author',
+      select: 'firstName lastName slug',
+    })
+    .sort({ createdAt: -1 })
+    .skip((page - 1) * pagesize)
+    .limit(pagesize);
+
+  const countPromise = Blog.count({ author: req.user.follows });
+  const [count, blogs] = await Promise.all([countPromise, blogsPromise]);
+  const pages = Math.ceil(count / pagesize);
+
+  res.json({ pages, blogs });
+};
+
 module.exports = {
   createUser,
   loginUser,
   getUserBySlug,
   followUser,
   getUserBlogsBySlug,
+  getFollowedUsersBlogs,
 };
