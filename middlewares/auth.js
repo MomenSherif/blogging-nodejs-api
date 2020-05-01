@@ -8,8 +8,9 @@ const { jwtSecretKey } = require('../config');
 const jwtVerify = promisify(jwt.verify);
 
 const authenticate = async (req, res, next) => {
-  const token = req.headers.authorization.replace('Bearer ', '');
+  if (!req.headers.authorization) throw new CustomError(401, 'Unauthorized!');
 
+  const token = req.headers.authorization.replace('Bearer ', '');
   const { _id } = await jwtVerify(token, jwtSecretKey).catch((e) => {
     throw new CustomError(401, 'Unauthorized Expired Token!');
   });

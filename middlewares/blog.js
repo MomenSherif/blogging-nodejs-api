@@ -1,5 +1,5 @@
 const path = require('path');
-const { body } = require('express-validator');
+const { body, query } = require('express-validator');
 const multer = require('multer');
 
 const validateRequest = require('../middlewares/validateRequest');
@@ -80,9 +80,15 @@ const validateBlogOwner = async (req, res, next) => {
 
 const uploadPhoto = upload.single('photo');
 
+const sanitizeBlogPagePagination = validateRequest([
+  query('page').optional().isInt().toInt(),
+  query('pagesize').optional().isInt().toInt(),
+]);
+
 module.exports = {
   validateBlogCreation,
   validateBlogOwner,
   validateBlogUpdate,
   uploadPhoto,
+  sanitizeBlogPagePagination,
 };

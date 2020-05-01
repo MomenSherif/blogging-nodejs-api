@@ -5,9 +5,16 @@ const {
   validateBlogOwner,
   validateBlogUpdate,
   uploadPhoto,
+  sanitizeBlogPagePagination,
 } = require('../middlewares/blog');
 const { authenticate } = require('../middlewares/auth');
-const { createBlog, deleteBlog, updateBlog } = require('../controllers/blog');
+const {
+  createBlog,
+  deleteBlog,
+  updateBlog,
+  getBlogBySlug,
+  getBlogs,
+} = require('../controllers/blog');
 
 const router = express.Router();
 
@@ -23,5 +30,10 @@ router.patch(
   validateBlogUpdate,
   updateBlog
 );
+
+router.get('/:slug', getBlogBySlug);
+console.log('test');
+
+router.get('/', sanitizeBlogPagePagination, getBlogs);
 
 module.exports = router;
