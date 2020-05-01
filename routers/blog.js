@@ -14,9 +14,12 @@ const {
   updateBlog,
   getBlogBySlug,
   getBlogs,
+  searchForBlog,
 } = require('../controllers/blog');
 
 const router = express.Router();
+
+router.get('/search', searchForBlog);
 
 router.post('/', authenticate, uploadPhoto, validateBlogCreation, createBlog);
 

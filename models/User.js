@@ -46,7 +46,7 @@ const userSchema = new mongoose.Schema(
       },
     ],
   },
-  { timestamps: true }
+  { timestamps: true, toObject: { virtuals: true } }
 );
 
 userSchema.plugin(slug);

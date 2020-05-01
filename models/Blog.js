@@ -54,12 +54,6 @@ blogSchema.pre('save', async function () {
     await removeFile(path.join(__dirname, '../public', this._photo));
 });
 
-// const autoPopulateAuthor = function () {
-//   this.populate('author');
-// };
-// blogSchema.pre('findOne', autoPopulateAuthor);
-// blogSchema.pre('find', autoPopulateAuthor);
-
 const Blog = mongoose.model('Blog', blogSchema);
 
 module.exports = Blog;
