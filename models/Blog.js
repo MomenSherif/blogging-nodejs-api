@@ -1,5 +1,10 @@
+const fs = require('fs');
+const path = require('path');
+const { promisify } = require('util');
 const mongoose = require('mongoose');
 const slug = require('mongoose-slug-generator');
+
+const removeFile = promisify(fs.unlink);
 
 const blogSchema = new mongoose.Schema(
   {
@@ -23,6 +28,10 @@ const blogSchema = new mongoose.Schema(
     },
     photo: {
       type: String,
+      set(photo) {
+        this._photo = this.photo; // store previous value -> to delete img when be updated
+        return photo;
+      },
       required: [true, 'Photo is required!'],
     },
     tags: [String],
@@ -39,6 +48,11 @@ const blogSchema = new mongoose.Schema(
 blogSchema.plugin(slug);
 
 blogSchema.index({ title: 'text' });
+
+blogSchema.pre('save', async function () {
+  if (!this.isNew && this.isModified('photo'))
+    await removeFile(path.join(__dirname, '../public', this._photo));
+});
 
 const Blog = mongoose.model('Blog', blogSchema);
 

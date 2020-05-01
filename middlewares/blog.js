@@ -41,6 +41,11 @@ const validateBlogCreation = validateRequest([
     .withMessage('Body must be at least 20 characters!')
     .notEmpty()
     .withMessage('Body must be provided!'),
+  body('photo') // Custom validator for image upload only
+    .custom((value, { req }) =>
+      req.file ? req.file.mimetype.startsWith('image') : false
+    )
+    .withMessage('Images only are allowed!'),
 ]);
 
 const validateBlogUpdate = validateRequest([
@@ -52,6 +57,12 @@ const validateBlogUpdate = validateRequest([
     .optional()
     .isLength({ min: 20 })
     .withMessage('Body must be at least 20 characters!'),
+  body('photo')
+    .optional()
+    .custom((value, { req }) =>
+      req.file ? req.file.mimetype.startsWith('image') : false
+    )
+    .withMessage('Images only are allowed!'),
   ...validateRequestExtraFields('author'),
 ]);
 
