@@ -39,6 +39,12 @@ const userSchema = new mongoose.Schema(
       slug_padding_size: 3,
       unique: true,
     },
+    follows: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
   },
   { timestamps: true }
 );

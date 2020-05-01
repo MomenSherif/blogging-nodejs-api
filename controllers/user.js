@@ -23,8 +23,23 @@ const getUserBySlug = async (req, res) => {
   res.json(user);
 };
 
+const followUser = async (req, res) => {
+  const isFollowing = req.user.follows.some(
+    (id) => id.toString() === req.params.id
+  );
+  const operator = isFollowing ? '$pull' : '$addToSet';
+  const message = `${isFollowing ? 'UnFollowed' : 'Followed'} Successfully`;
+  await req.user.updateOne({
+    [operator]: {
+      follows: req.params.id,
+    },
+  });
+  res.json({ message });
+};
+
 module.exports = {
   createUser,
   loginUser,
   getUserBySlug,
+  followUser,
 };
