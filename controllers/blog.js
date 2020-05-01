@@ -42,7 +42,7 @@ const getBlogs = async (req, res) => {
   const [count, blogs] = await Promise.all([countPromise, blogsPromise]);
   const pages = Math.ceil(count / pagesize);
 
-  res.json({ pages, test: blogs.length, blogs });
+  res.json({ pages, blogs });
 };
 
 module.exports = {
