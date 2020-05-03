@@ -80,14 +80,17 @@ const searchForBlog = async (req, res) => {
         as: 'user',
       },
     },
+    {
+      $unwind: '$user',
+    },
     // check for author supplied or not
     // ! WTF IAM DOING ...
     author
       ? {
           $match: {
             $or: [
-              { 'user.0.firstName': new RegExp(`${author}`, 'i') },
-              { 'user.0.lastName': new RegExp(`${author}`, 'i') },
+              { 'user.firstName': new RegExp(`${author}`, 'i') },
+              { 'user.lastName': new RegExp(`${author}`, 'i') },
             ],
           },
         }
