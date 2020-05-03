@@ -7,6 +7,7 @@ MERN blogging website [ Back End Repo ]
 
 - [express](https://www.npmjs.com/package/express)
 - [nodemon](https://www.npmjs.com/package/nodemon)
+- [cors](https://www.npmjs.com/package/cors)
 - [dotenv](https://www.npmjs.com/package/dotenv)
 - [express-validator](https://www.npmjs.com/package/express-validator)
 - [express-async-errors](https://www.npmjs.com/package/express-async-errors)
