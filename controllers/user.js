@@ -5,7 +5,7 @@ const CustomError = require('../helper/CustomError');
 const createUser = async (req, res) => {
   const user = new User(req.body);
   const [token] = await Promise.all([user.genereateAuthToken(), user.save()]);
-  res.status(201).json({ user, token });
+  res.status(201).json({ user, token, message: 'Signed up Successfully' });
 };
 
 const loginUser = async (req, res) => {
@@ -15,15 +15,18 @@ const loginUser = async (req, res) => {
   if (!user) throw new CustomError(401, 'Invalid email or password!');
 
   const token = await user.genereateAuthToken();
-  res.json({ user, token });
+  res.json({ user, token, message: 'Logged in Successfully' });
 };
 
 // Use both in user profile
 // Separated t 2 functions, to not request profile data while paginating blogs
 const getUserBySlug = async (req, res) => {
-  const user = await User.findOne({ slug: req.params.slug }).select('-follows');
+  // couldn't use Promise.all, cus needs user id
+  const user = await User.findOne({ slug: req.params.slug });
   if (!user) throw new CustomError(404, 'User Not Found');
-  res.json(user);
+
+  const followers = await User.find({ follows: user._id }).count();
+  res.json({ user, followers });
 };
 
 const getUserBlogsBySlug = async (req, res) => {
@@ -65,7 +68,7 @@ const getFollowedUsersBlogs = async (req, res) => {
   const blogsPromise = Blog.find({ author: req.user.follows })
     .populate({
       path: 'author',
-      select: 'firstName lastName slug',
+      select: 'firstName lastName slug gender',
     })
     .sort({ createdAt: -1 })
     .skip((page - 1) * pagesize)

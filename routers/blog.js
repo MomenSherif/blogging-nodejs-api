@@ -35,7 +35,6 @@ router.patch(
 );
 
 router.get('/:slug', getBlogBySlug);
-console.log('test');
 
 router.get('/', sanitizeBlogPagePagination, getBlogs);
 

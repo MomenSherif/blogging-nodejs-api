@@ -33,6 +33,11 @@ const userSchema = new mongoose.Schema(
       trim: true,
       required: [true, 'Passowrd is required!'],
     },
+    gender: {
+      type: String,
+      enum: ['male', 'female'],
+      required: [true, 'Gender is required!'],
+    },
     slug: {
       type: String,
       slug: ['firstName', 'lastName'],

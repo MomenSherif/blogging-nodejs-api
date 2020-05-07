@@ -18,6 +18,11 @@ const validateRegisterationCredentials = validateRequest([
   ...emailPasswordValidators,
   body('firstName').notEmpty().withMessage('First Name must be provided!'),
   body('lastName').notEmpty().withMessage('Last Name must be provided!'),
+  body('gender')
+    .isIn(['male', 'female'])
+    .withMessage('male | female are allowed!')
+    .notEmpty()
+    .withMessage('Gender must be provided!'),
 ]);
 
 const validateLoginCredentials = validateRequest(emailPasswordValidators);

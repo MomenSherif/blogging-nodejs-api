@@ -8,7 +8,7 @@ const createBlog = async (req, res) => {
   req.body.author = req.user._id;
   const blog = new Blog(req.body);
   await blog.save();
-  res.status(201).json(blog);
+  res.status(201).json({ blog, message: 'Blog Created Successfully!' });
 };
 
 const updateBlog = async (req, res) => {
@@ -19,7 +19,7 @@ const updateBlog = async (req, res) => {
     req.blog[update] = req.body[update];
   });
   await req.blog.save();
-  res.json(req.blog);
+  res.json({ blog: req.blog, message: 'Blog Updated Successfully!' });
 };
 
 const deleteBlog = async (req, res) => {
@@ -39,6 +39,10 @@ const getBlogBySlug = async (req, res) => {
 const getBlogs = async (req, res) => {
   const { page = 1, pagesize = 5 } = req.query;
   const blogsPromise = Blog.find({})
+    .populate({
+      path: 'author',
+      select: 'firstName lastName slug gender',
+    })
     .sort({ createdAt: -1 })
     .skip((page - 1) * pagesize)
     .limit(pagesize);
