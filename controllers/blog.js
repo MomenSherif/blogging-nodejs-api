@@ -46,7 +46,7 @@ const getBlogs = async (req, res) => {
     .sort({ createdAt: -1 })
     .skip((page - 1) * pagesize)
     .limit(pagesize);
-  const countPromise = Blog.count();
+  const countPromise = Blog.countDocuments();
   const [count, blogs] = await Promise.all([countPromise, blogsPromise]);
   const pages = Math.ceil(count / pagesize);
 
@@ -63,7 +63,9 @@ const getBlogs = async (req, res) => {
 const searchForBlog = async (req, res) => {
   const { author, title, tag } = req.query;
   const match = {
-    tags: tag || { $exists: true },
+    tags: {
+      $regex: new RegExp(tag, 'i'),
+    },
   };
   // support text index search for title
   if (title)
@@ -112,11 +114,13 @@ const searchForBlog = async (req, res) => {
         title: 1,
         body: 1,
         photo: 1,
+        tags: 1,
         slug: 1,
         createdAt: 1,
-        'user.firstName': 1,
-        'user.lastName': 1,
-        'user.slug': 1,
+        'author.firstName': '$user.firstName',
+        'author.lastName': '$user.lastName',
+        'author.slug': '$user.slug',
+        'author.gender': '$user.gender',
       },
     },
   ]);

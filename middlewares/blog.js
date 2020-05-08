@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
   },
   filename(req, file, cb) {
     const ext = path.extname(file.originalname);
-    cb(null, `${file.originalname}`);
+    cb(null, `${file.originalname}-v1-${ext}`);
   },
 });
 
@@ -64,9 +64,7 @@ const validateBlogUpdate = validateRequest([
       req.file ? req.file.mimetype.startsWith('image') : false
     )
     .withMessage('Images only are allowed!'),
-  body('tags').customSanitizer((value) => {
-    return value.split(',');
-  }),
+  body('tags').customSanitizer((value) => JSON.parse(value)),
   ...validateRequestExtraFields('author'),
 ]);
 
