@@ -83,7 +83,7 @@ userSchema.statics.findByCredentials = async ({ email, password }) => {
 };
 
 userSchema.methods.genereateAuthToken = function () {
-  return jwtSign({ _id: this._id }, jwtSecretKey, { expiresIn: '1h' });
+  return jwtSign({ _id: this._id }, jwtSecretKey, { expiresIn: '12h' });
 };
 
 userSchema.methods.toJSON = function () {

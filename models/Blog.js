@@ -54,6 +54,10 @@ blogSchema.pre('save', async function () {
     await removeFile(path.join(__dirname, '../public', this._photo));
 });
 
+blogSchema.pre('remove', async function () {
+  await removeFile(path.join(__dirname, '../public', this.photo));
+});
+
 const Blog = mongoose.model('Blog', blogSchema);
 
 module.exports = Blog;

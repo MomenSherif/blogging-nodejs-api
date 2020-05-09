@@ -19,7 +19,7 @@ const {
 
 const router = express.Router();
 
-router.get('/search', searchForBlog);
+router.get('/search', authenticate, searchForBlog);
 
 router.post('/', authenticate, uploadPhoto, validateBlogCreation, createBlog);
 
