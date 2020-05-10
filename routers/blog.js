@@ -28,8 +28,8 @@ router.delete('/:id', authenticate, validateBlogOwner, deleteBlog);
 router.patch(
   '/:id',
   authenticate,
-  uploadPhoto,
   validateBlogOwner,
+  uploadPhoto,
   validateBlogUpdate,
   updateBlog
 );

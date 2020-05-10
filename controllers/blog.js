@@ -13,11 +13,14 @@ const createBlog = async (req, res) => {
 
 const updateBlog = async (req, res) => {
   // To trigger  pre save hook for [slug]
+
   if (req.file) req.body.photo = `/uploads/${req.file.filename}`;
   const updates = Object.keys(req.body);
   updates.forEach((update) => {
     req.blog[update] = req.body[update];
   });
+  console.log(req.blog);
+
   await req.blog.save();
   res.json({ blog: req.blog, message: 'Blog Updated Successfully!' });
 };
