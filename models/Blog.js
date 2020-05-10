@@ -3,8 +3,7 @@ const path = require('path');
 const { promisify } = require('util');
 const mongoose = require('mongoose');
 const slug = require('mongoose-slug-generator');
-
-const removeFile = promisify(fs.unlink);
+const cloudinary = require('../handlers/cloudinary');
 
 const blogSchema = new mongoose.Schema(
   {
@@ -51,13 +50,11 @@ blogSchema.index({ title: 'text' });
 
 blogSchema.pre('save', async function () {
   if (!this.isNew && this.isModified('photo'))
-    await removeFile(
-      path.join(__dirname, '../public', this._photo)
-    ).catch((e) => {});
+    await cloudinary.v2.uploader.destroy(this._photo).catch((e) => {});
 });
 
 blogSchema.pre('remove', async function () {
-  await removeFile(path.join(__dirname, '../public', this.photo));
+  await cloudinary.v2.uploader.destroy(this._photo).catch((e) => {});
 });
 
 const Blog = mongoose.model('Blog', blogSchema);
