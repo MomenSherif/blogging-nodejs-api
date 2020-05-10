@@ -1,5 +1,6 @@
 const { validationResult } = require('express-validator');
-const CustomError = require('../helper/customError');
+const path = require('path');
+const CustomError = require(path.join(__dirname, '../helper/CustomError'));
 
 const validateRequest = (validatorsArray) => async (req, res, next) => {
   const validtaorPromises = validatorsArray.map((validator) =>
