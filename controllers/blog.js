@@ -22,8 +22,6 @@ const updateBlog = async (req, res) => {
   updates.forEach((update) => {
     req.blog[update] = req.body[update];
   });
-  console.log(req.blog);
-
   await req.blog.save();
   res.json({ blog: req.blog, message: 'Blog Updated Successfully!' });
 };

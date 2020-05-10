@@ -53,7 +53,9 @@ const validateBlogUpdate = validateRequest([
       req.file ? req.file.mimetype.startsWith('image') : false
     )
     .withMessage('Images only are allowed!'),
-  body('tags').customSanitizer((value) => JSON.parse(value)),
+  body('tags')
+    .optional()
+    .customSanitizer((value) => JSON.parse(value)),
   ...validateRequestExtraFields('author'),
 ]);
 

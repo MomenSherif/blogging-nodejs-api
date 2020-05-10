@@ -27,10 +27,6 @@ const blogSchema = new mongoose.Schema(
     },
     photo: {
       type: String,
-      set(photo) {
-        this._photo = this.photo; // store previous value -> to delete img when be updated
-        return photo;
-      },
       required: [true, 'Photo is required!'],
     },
     tags: [String],
@@ -47,15 +43,6 @@ const blogSchema = new mongoose.Schema(
 blogSchema.plugin(slug);
 
 blogSchema.index({ title: 'text' });
-
-blogSchema.pre('save', async function () {
-  if (!this.isNew && this.isModified('photo'))
-    await cloudinary.v2.uploader.destroy(this._photo).catch((e) => {});
-});
-
-blogSchema.pre('remove', async function () {
-  await cloudinary.v2.uploader.destroy(this._photo).catch((e) => {});
-});
 
 const Blog = mongoose.model('Blog', blogSchema);
 
