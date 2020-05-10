@@ -14,7 +14,10 @@ const createBlog = async (req, res) => {
 const updateBlog = async (req, res) => {
   // To trigger  pre save hook for [slug]
 
-  if (req.file) req.body.photo = `/uploads/${req.file.filename}`;
+  if (req.file) {
+    const photo = await cloudinary.v2.uploader.upload(req.file.path);
+    req.body.photo = photo.url;
+  }
   const updates = Object.keys(req.body);
   updates.forEach((update) => {
     req.blog[update] = req.body[update];
