@@ -1,10 +1,10 @@
 const Blog = require('../models/Blog');
-const User = require('../models/User');
-
 const CustomError = require('../helper/CustomError');
+const cloudinary = require('../handlers/cloudinary');
 
 const createBlog = async (req, res) => {
-  req.body.photo = `/uploads/${req.file.filename}`;
+  const photo = await cloudinary.v2.uploader.upload(req.file.path);
+  req.body.photo = photo.url;
   req.body.author = req.user._id;
   const blog = new Blog(req.body);
   await blog.save();

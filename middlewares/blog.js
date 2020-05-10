@@ -7,19 +7,8 @@ const Blog = require('../models/Blog');
 const CustomError = require('../helper/CustomError');
 const validateRequestExtraFields = require('../middlewares/validateRequestExtraFields');
 
-// Blog photo multer configuration
-const storage = multer.diskStorage({
-  destination(req, file, cb) {
-    cb(null, path.join(__dirname, '../public/uploads'));
-  },
-  filename(req, file, cb) {
-    const ext = path.extname(file.originalname);
-    cb(null, `${file.originalname}__Blog__${Date.now()}${ext}`);
-  },
-});
-
 const upload = multer({
-  storage,
+  storage: multer.diskStorage({}),
   fileFilter(req, file, cb) {
     const isPhoto = file.mimetype.startsWith('image/');
     if (isPhoto) cb(null, true);

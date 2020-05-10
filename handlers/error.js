@@ -24,6 +24,8 @@ const validationErrorHandler = (err, req, res, next) => {
 };
 
 const errorHandler = (err, req, res, next) => {
+  console.log(err);
+
   err.statusCode = err.statusCode || 500;
   const handledError = err.statusCode < 500;
 
