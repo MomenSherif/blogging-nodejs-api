@@ -4,8 +4,8 @@
   "description": "",
   "main": "start.js",
   "scripts": {
-    "start": "node .",
-    "dev": "nodemon .",
+    "start": "node start.js",
+    "dev": "nodemon start.js",
     "debug": "nodemon --inspec ."
   },
   "author": "Mo'men",
