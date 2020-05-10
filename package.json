@@ -2,10 +2,10 @@
   "name": "blogging-api",
   "version": "1.0.0",
   "description": "",
-  "main": "start.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node start.js",
-    "dev": "nodemon start.js",
+    "start": "node index.js",
+    "dev": "nodemon index.js",
     "debug": "nodemon --inspec ."
   },
   "author": "Mo'men",
