@@ -1,7 +1,6 @@
-# blogging-nodejs-api
+# blogging-nodejs-api 🔥 
 
 MERN blogging website [ Back End Repo ]
-**WIP: 📦 📦 📦**
 
 **NPM Packages:**
 
@@ -17,3 +16,8 @@ MERN blogging website [ Back End Repo ]
 - [mongoose-slug-generator](https://www.npmjs.com/package/mongoose-slug-generator)
 - [mongoose-unique-validator](https://www.npmjs.com/package/mongoose-unique-validator)
 - [multer](https://www.npmjs.com/package/multer)
+
+[👋Give a try](https://blogging-reactjs.herokuapp.com/)
+## Screenshot
+
+![Profile Screenshot](https://i.imgur.com/yrSblCn.png)
