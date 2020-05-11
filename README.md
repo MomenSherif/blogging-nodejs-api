@@ -1,6 +1,6 @@
 # blogging-nodejs-api 🔥 
 
-MERN blogging website [ Back End Repo ]
+MERN blogging website [ Back End Repo ] [👋Give a try](https://blogging-reactjs.herokuapp.com/)
 
 **NPM Packages:**
 
@@ -17,7 +17,6 @@ MERN blogging website [ Back End Repo ]
 - [mongoose-unique-validator](https://www.npmjs.com/package/mongoose-unique-validator)
 - [multer](https://www.npmjs.com/package/multer)
 
-[👋Give a try](https://blogging-reactjs.herokuapp.com/)
 ## Screenshot
 
 ![Profile Screenshot](https://i.imgur.com/yrSblCn.png)
