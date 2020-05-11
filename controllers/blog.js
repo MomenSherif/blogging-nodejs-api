@@ -72,9 +72,13 @@ const searchForBlog = async (req, res) => {
         title: {
           $regex: new RegExp(`${title}`, 'i'),
         },
-        tags: {
-          $regex: new RegExp(tag, 'i'),
-        },
+        tags: tag
+          ? {
+              $regex: new RegExp(tag, 'i'),
+            }
+          : {
+              $exists: true,
+            },
       },
     },
     {
