@@ -66,20 +66,16 @@ const getBlogs = async (req, res) => {
  */
 const searchForBlog = async (req, res) => {
   const { author, title, tag } = req.query;
-  const match = {
-    tags: {
-      $regex: new RegExp(tag, 'i'),
-    },
-  };
-  // support text index search for title
-  if (title)
-    match['$text'] = {
-      $search: title,
-    };
-
   const blogs = await Blog.aggregate([
     {
-      $match: match,
+      $match: {
+        title: {
+          $regex: new RegExp(`${title}`, 'i'),
+        },
+        tags: {
+          $regex: new RegExp(tag, 'i'),
+        },
+      },
     },
     {
       // populate Author
