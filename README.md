@@ -16,6 +16,7 @@ MERN blogging website [ Back End Repo ] [👋Give a try](https://blogging-reactj
 - [mongoose-slug-generator](https://www.npmjs.com/package/mongoose-slug-generator)
 - [mongoose-unique-validator](https://www.npmjs.com/package/mongoose-unique-validator)
 - [multer](https://www.npmjs.com/package/multer)
+- [cloudinary](https://www.npmjs.com/package/cloudinary)
 
 ## Screenshot
 
